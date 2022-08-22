@@ -254,7 +254,7 @@ def interpretator(com_str,is_run=False):
                 if objects[objtodel]["deletable"]:
                     del objects[objtodel]
                 else:
-                    print(fg["red"] + extra_ansi["flash"] + "ACCESS DENIED")
+                    print(fg["red"] + extra_ansi["flash"] + "ACCESS DENIED\033[0m")
             except KeyError:
                 print("No object called" + objtodel + ". Maybe you allready deleted it?")
         elif com == "exit":
