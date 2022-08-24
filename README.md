@@ -4,6 +4,7 @@ TeaSharp is a *begginer-friendly* programming language, which is very connected 
 TeaSharp's syntax is very *easy and clean*, which makes it very *begginer-frendly*.
 1. TeaSharp doesn't uses `"` symbols for strings;
 2. It also doesn't uses brackets for functions and other things.
+3. TeaSharp uses simple keywords like `from` instead of `for`.
 ### Example:
 #### TeaSharp:
 > `Print Hello World!`
