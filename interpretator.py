@@ -1,4 +1,4 @@
-ver = 1.2
+ver = 1.4
 from time import sleep
 def cool_print(string, noend=False,title=False,slow=False):
     if title:
@@ -24,8 +24,8 @@ from os import system as sys
 from os import path
 #from keyboard import read_key
 import platform as pl
-Procedures = {}
-imported_modules = []
+Procedures={}
+imported_modules=[]
 def cls():
     sys("cls" if pl.system()=="Windows" else "clear")
 if int("".join(pl.python_version().split(".")[0:2])) < 37:
@@ -140,9 +140,10 @@ def bgconf(dat, dat_str, cnl="bg"):
 def run(s=1):
     try:
         cd = dict(list(code_list.items())[s-1:len(list(code_list.items()))])
-        for command in cd:
+        for i in range(0,len(cd)):
+            command=list(cd.values())[i]
             try:
-                thing = interpretator(cd[command],is_run=True)
+                thing = interpretator(command,current_line=i,is_run=True)
                 if thing != None:
                     run(s=thing)
                     break
@@ -152,7 +153,7 @@ def run(s=1):
                 break
     except KeyboardInterrupt:
         print("\nOops! You accidentaly pressed Ctrl+C!")
-def interpretator(com_str,is_run=False):
+def interpretator(com_str,current_line,is_run=False):
     global code_list,echo_on_mode,username,path,object_sel,imported_modules
     code_list = dict(sorted(list(code_list.items()), key = lambda kv: kv[0]))
     if com_str.split() == []:
@@ -180,12 +181,12 @@ def interpretator(com_str,is_run=False):
             data = com_list[1:len(com_list)]
         try:
             code_num = int(com)
-            code_list[code_num] = " ".join(data)
-            del code_num
+            if data:code_list[code_num] = " ".join(data)
+            else:del code_list[code_num]
             if not iva:
                 return
-        except:
-            pass
+        except KeyError:return
+        except:pass
         if com == "cookie":
             print("Thanks a bunch for a cookie to my tea!")
         elif com == "hi":
@@ -197,17 +198,26 @@ def interpretator(com_str,is_run=False):
             print('Are you a begginer,', username + '? Try command "help".')
             print('It contains some help for you,', username + "!")
         elif com == "dir":
-            print(", ".join(variables))
+            if variables:
+                for i in range(0,len(variables)):
+                    print(list(variables.keys())[i]+":",list(variables.values())[i]+";")
+            else:print("Oh no! You've got stinky'd!")
         elif com == "print":
             try:
                 print(variables["_".join(data)])
             except:
-                print(" ".join(data))
+                print(" ".join(data).replace("\\n","\n"))
+        elif com=="read"and"file"==data[0].lower():
+            file=open(" ".join(data[1:(" ".join(data).lower()).split().index("as")]))
+            variables[" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)])]=file.read()
+            file.close()
+        elif com=="write"and"file"==data[0].lower():
+            file=open(" ".join(data[1:(" ".join(data).lower()).split().index("as")]),'w')
+            file.write(" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)]))
+            file.close()
         elif com == "username":
-            if data == []:
-                print(username)
-            else:
-                username = " ".join(data)
+            if data:username=" ".join(data)
+            else:print(username if username else str(interpretator("hi"))*0)
         elif com == "py":
             try:
                 exec(" ".join(data))
@@ -225,10 +235,7 @@ def interpretator(com_str,is_run=False):
         elif com == "about":
             if pl.system() == "Windows":
                 if int("".join(pl.python_version().split(".")[0:2])) > 37:
-                    if pl.win32_is_iot():
-                        runon = [pl.system(), pl.version(), "IoT editon"]
-                    else:
-                        runon = [pl.system(), pl.version(), pl.win32_edition()]
+                    runon = [pl.system(), pl.version(), "IoT editon"if pl.win32_is_iot()else pl.win32_edition()]
                 else:
                     runon = [pl.system(), pl.version()]
             elif pl.system() == "":
@@ -245,7 +252,7 @@ def interpretator(com_str,is_run=False):
                     looknoobj = looknoobj + bg[objects["meta_bg"]["bgcolor"]] + fg[objects["meta_bg"]["fgcolor"]] + objects["meta_bg"]["tile"] + "\033[0m"
                 looknoobj = looknoobj + "\n"
             print(looknoobj)
-        elif com == "del":
+        elif com == "delete":
             if data == []:
                 objtodel = object_sel
             else:
@@ -286,8 +293,8 @@ def interpretator(com_str,is_run=False):
             if path.isfile(filename):
                 file = open(filename, "r")
                 opcode = file.read().split("\n")
-                for lines in opcode:
-                    interpretator(lines)
+                for lines in range(0,len(opcode)):
+                    interpretator(opcode[lines],current_line,is_run=True)
                 file.close()
         elif com == "save":
             filename = " ".join(data)
@@ -301,8 +308,9 @@ def interpretator(com_str,is_run=False):
             file.write(tosave)
             file.close()
         elif com == "list":
-            for num in range(0, len(code_list)):
-                print(list(code_list.keys())[num], code_list[list(code_list.keys())[num]])
+            if code_list:
+                for num in range(0, len(code_list)):print(list(code_list)[num]+":", code_list[list(code_list.keys())[num]])
+            else:print("Looks like you didn't wrote any code!")
         elif com == "input":
             try:
                 data[0]
@@ -327,7 +335,7 @@ def interpretator(com_str,is_run=False):
             hlp()
         elif com == "if":
             try:
-                detect = "_".join(data[0:data.index("then")]) # idk how it's in english named     qoq
+                detect = "_".join(data[0:data.index("then")]) # idk how it's in english     qoq
                 try:
                     todo = " ".join(data[data.index("then")+1:data.index("else")])
                     els = " ".join(data[data.index("else")+1:len(data)])
@@ -345,36 +353,24 @@ def interpretator(com_str,is_run=False):
                         interpretator(els)
             except:
                 print("What I need to do?")
-        elif com_str.lower() == "edit map":
-            cls()
-            map = ['........']*8
-            x=0
-            y=0
-            while True:
-                print('\n'.join(map))
-                print('Press Escape to exit')
-#                 kp = read_key()
-#                 if kp == "esc":
-#                     break
-#                 elif kp == "down" and y < 9:
-#                     y += 1
-#                 elif kp == "right" and x < 9:
-#                     x += 1
-#                 elif kp == "up" and y > 1:
-#                     y -= 1
-#                 elif kp == "left" and x < 1:
-#                     x -= 1
-                kp = input("> ").lower()
-                if kp == "exit":
-                    break
-                elif kp == "s" and y < 9:
-                    y += 1
-                elif kp == "d" and x < 9:
-                    x += 1
-                elif kp == "w" and y > 1:
-                    y -= 1
-                elif kp == "a" and x < 1:
-                    x -= 1
+        elif com == "from":
+            if is_run:
+                _from = int(data[0])
+                to = int(data[2])
+                try:
+                    _as = " ".join(data[4:len(data)-(1if"do"in data else 0)])
+                except:_as=0
+                todo=[]
+                count=0
+                while 1:
+                    command=list(code_list.values())[current_line+1:len(code_list)][count]
+                    if command.lower()=="end":break
+                    todo.append(command)
+                    count+=1
+                for i in range(_from,to+1):
+                    for command in range(0,len(todo)):
+                        interpretator(todo[command],command)
+                        if _as!=0:variables[_as]=i
         elif com == "import":
             if len(com_list) > 1:
                 try:
@@ -401,7 +397,7 @@ Remember: if the file you wan't to import is not in the TeaSharp folder, you mus
                     else:
                         raise ValueError("It's not a number... But wait! Who reads this? kek")
                 except ValueError:
-                    variables[cnl] = " ".join(data)
+                    variables[cnl] = " ".join(data).replace("\\n","\n")
         elif com_str == "who did this all stuff, and why?":
             cls()
             print(f'''\033[103m\033[34m\t\t█▐█▐▌
@@ -415,10 +411,11 @@ Shreder95ua     ▐█▀█
             input()
             print("\033[0m")
             cls()
+        elif com=="end":pass
         elif com_str.lower() in Procedures:
             Procedures[com_str.lower()]()
         else:
-            print("Nice drink! But it's weird. I never drunk " + com_str)
+            print("Nice drink! But it's weird. I never drunk",com_str)
         del com,com_list,com_str,cnl
 variables = {}
 print(title)
@@ -428,10 +425,10 @@ while True:
     print(fg[color], end = '')
     try:
         if echo_on_mode:
-            com_str = input("")
+            com_str = input()
         else:
             com_str = input("[" + object_sel + "]: ")
-        interpretator(com_str)
+        interpretator(com_str,0)
     except KeyboardInterrupt:
         print("\nExiting... (You pressed Ctrl+C)")
         exit()
