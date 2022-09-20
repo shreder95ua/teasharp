@@ -11,5 +11,3 @@ TeaSharp's syntax is very *easy and clean*, which makes it very *begginer-frendl
 > `Print Hello World!`
 #### Python:
 > `print("Hello World!")`
-
-bebra
