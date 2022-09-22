@@ -13,7 +13,21 @@
 #include <windows.h>
 #endif
 
-#include "window.c"
+#include "arg_processing.h"
+
+/*  this is where the main intactible window is located,
+    all configuration on it is done here. */
+static void activate(GtkApplication *app, gpointer user_data)
+{
+    GtkWidget *window;
+
+    window = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(window), "TeaSharp");
+    gtk_window_set_default_size(GTK_WINDOW(window), 640, 480);
+  
+    gtk_widget_show(window);
+}
+
 
 /*  this is the start of the teasharp interpretor.
     It uses gtk for gui capability and is writen in C.
