@@ -212,9 +212,15 @@ def interpretator(com_str,current_line,is_run=False):
             variables[" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)])]=file.read()
             file.close()
         elif com=="write"and"file"==data[0].lower():
-            file=open(" ".join(data[1:(" ".join(data).lower()).split().index("as")]),'w')
-            file.write(" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)]))
-            file.close()
+            if"file"==data[0].lower():
+                file=open(" ".join(data[1:(" ".join(data).lower()).split().index("as")]),'w')
+                file.write(" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)]))
+                file.close()
+            else:
+                try:
+                    print(variables["_".join(data)],end="")
+                except:
+                    print(" ".join(data).replace("\\n","\n"),end='')
         elif com == "username":
             if data:username=" ".join(data)
             else:print(username if username else str(interpretator("hi"))*0)
@@ -371,6 +377,25 @@ def interpretator(com_str,current_line,is_run=False):
                     for command in range(0,len(todo)):
                         interpretator(todo[command],command)
                         if _as!=0:variables[_as]=i
+        elif com == "while":
+            if is_run:
+                condition = data
+                if condition[len(data)-1]=="do":
+                    del condition[len(data)-1]
+                todo=[]
+                count=0
+                while 1:
+                    command=list(code_list.values())[current_line+1:len(code_list)][count]
+                    if command.lower()=="end":break
+                    todo.append(command)
+                    count+=1
+                while 1:
+                    try:
+                        if bool(variables["_".join(condition)]):break
+                    except KeyError:
+                        if bool("_".join(condition)):break
+                    for command in range(0,len(todo)):
+                        interpretator(todo[command],command)
         elif com == "import":
             if len(com_list) > 1:
                 try:
