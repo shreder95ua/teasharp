@@ -1,10 +1,11 @@
 import platform as pl
 
 from colorama import init
-from os import path
-from os import system as sys
 from random import choice
 from time import sleep
+
+from os import path
+from os import system as sys
 
 ver = 1.4
 init()
@@ -359,18 +360,15 @@ def interpretator(com_str,current_line,is_run=False):
             except:
                 print(" ".join(data).replace("\\n","\n"))
 
-        # TODO: fix file opening to prevent uncaught exception while file is opened
         elif com == "read" and "file" == data[0].lower():
-            file=open(" ".join(data[1:(" ".join(data).lower()).split().index("as")]))
-            variables[" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)])]=file.read()
-            file.close()
+            with open(" ".join(data[1:(" ".join(data).lower()).split().index("as")])) as file:
+                variables[" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)])]=file.read()
 
         elif com == "write" and "file" == data[0].lower():
             
             if "file" == data[0].lower():
-                file=open(" ".join(data[1:(" ".join(data).lower()).split().index("as")]),'w')
-                file.write(" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)]))
-                file.close()
+                with open(" ".join(data[1:(" ".join(data).lower()).split().index("as")]),'w') as file:
+                    file.write(" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)]))
 
             else:
                 try:
@@ -511,16 +509,16 @@ def interpretator(com_str,current_line,is_run=False):
 
             filename = " ".join(data)
             
-            file = open(filename, "w")
-            tosave = ""
-            
-            for lines in code_list:
-                tosave = tosave + code_list[lines]
-                if lines != len(list(code_list.keys())):
-                    tosave = tosave + "\n"
+            with open(filename, "w") as file:
 
-            file.write(tosave)
-            file.close()
+                tosave = ""
+                
+                for lines in code_list:
+                    tosave = tosave + code_list[lines]
+                    if lines != len(list(code_list.keys())):
+                        tosave = tosave + "\n"
+
+                file.write(tosave)
 
         elif com == "list":
             
@@ -674,9 +672,10 @@ def interpretator(com_str,current_line,is_run=False):
             if len(com_list) > 1:
 
                 try:
-                    file_to_import = open(" ".join(data),"r")
-                    exec(file_to_import.read())
-                    file_to_import.close()
+
+                    with open(" ".join(data)) as file_to_import:
+                        exec(file_to_import.read())
+
                     imported_modules.append(" ".join(data))
                 
                 except FileNotFoundError:
@@ -733,7 +732,7 @@ Shreder95ua     ▐█▀█
         else:
             print("Nice drink! But it's weird. I've never drank it before.",com_str)
         
-        del com,com_list,com_str,cnl
+        del com,com_list, com_str, cnl
 
 
 print(title)
