@@ -61,7 +61,7 @@ if int("".join(pl.python_version().split(".")[0:2])) < 37:
     █   ████ █   █  ████  █   █ █   █ █  █ █    
 ██████████████████████████████████████████████  ''',title=True)
     print("\033[0m",end='')
-    cool_print("Warning! Your Python version is "+pl.python_version()+"!")
+    cool_print(f"Warning! Your Python version is {pl.python_version()}!")
     cool_print("This version does not have features that were added in Python 3.7:")
     cool_print("sorting, getting information about Windows version, and many-many others.")
     cool_print("You can get a new interpreter on https://python.org/downloads")
@@ -75,12 +75,15 @@ if int("".join(pl.python_version().split(".")[0:2])) < 37:
     sleep(0.4)
 
     if input("[Y/n]: ") == "Y":
+
         cool_print("TeaSharp can crash in any moment! You really wanna run TeaSharp?")
+        
         if input("[Y/n]: ") == "Y":
             cool_print("This is your last warning, the TeaSharp will crash, and...")
             cool_print("And... I don't know... It can do... Okay. You can run Teasharp.")
-            cool_print("But at own risk...",slow=True)
+            cool_print("But at own risk...", slow=True)
             cls()
+        
         else:
             exit()
     else:
@@ -123,7 +126,7 @@ def hlp():
             break
 
         else:
-            print('TeaSharp doesn\'t have a command "' + c + '". If you wanna exit: just type blank input.')
+            print(f'TeaSharp doesn\'t have a command {c}. If you wanna exit: just type blank input.')
 
 
 def c(code):
@@ -280,6 +283,7 @@ def interpretator(com_str,current_line,is_run=False):
         
         if com_str == "":
             print("There's nothing in the cup!")
+
         else:
             print("I don't want to drink water!")
 
@@ -319,6 +323,7 @@ def interpretator(com_str,current_line,is_run=False):
             
             else:
                 del code_list[code_num]
+
             if not iva:
                 return
 
@@ -338,10 +343,10 @@ def interpretator(com_str,current_line,is_run=False):
                 username = input("My name is ")
             
             else:
-                print("Hi", username + "! Nice to meet you.")
+                print(f"Hi, {username}! Nice to meet you.")
             
-            print('Are you a begginer,', username + '? Try command "help".')
-            print('It contains some help for you,', username + "!")
+            print(f'Are you a begginer, {username}? Try command "help".')
+            print(f"It contains some help for you, {username}!")
 
         elif com == "dir":
             
@@ -404,7 +409,7 @@ def interpretator(com_str,current_line,is_run=False):
                     print(object_sel)
                 
                 else:
-                    print("I don't know object " + " ".join(data) + ". Maybe try to create it?")
+                    print(f"I don't know object {' '.join(data)}. Maybe try to create it?")
         
         elif com == "about":
 
@@ -422,9 +427,9 @@ def interpretator(com_str,current_line,is_run=False):
             else:
                 runon = [pl.system(), pl.version()]
 
-            print("Tea Sharp ver.", ver)
-            print("Python version:", pl.python_version())
-            print("Running on", " ".join(runon))
+            print(f"Tea Sharp ver.{ver}")
+            print(f"Python version: {pl.python_version()}")
+            print(f"Running on {' '.join(runon)}")
 
         elif com == "look":
 
@@ -730,7 +735,7 @@ Shreder95ua     ▐█▀█
             Procedures[com_str.lower()]()
         
         else:
-            print("Nice drink! But it's weird. I've never drank it before.",com_str)
+            print(f"Nice drink! But it's weird. I've never drank it before. {com_str}")
         
         del com,com_list, com_str, cnl
 
@@ -747,7 +752,7 @@ while True:
             com_str = input()
         
         else:
-            com_str = input("[" + object_sel + "]: ")
+            com_str = input(f"[{object_sel}]: ")
         
         interpretator(com_str, 0)
 
