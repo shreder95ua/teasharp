@@ -18,7 +18,7 @@ code_list = {}
 variables = {}
 imported_modules = []
 
-def cool_print(string, noend=False, title=False, slow=False):
+def cool_print(string: str, noend: bool = False, title: bool = False, slow: bool = False) -> None:
 
     if title:
         for s in string:
@@ -46,7 +46,7 @@ def cool_print(string, noend=False, title=False, slow=False):
     sleep(0.4*(4 if slow else 1))
 
 
-def cls():
+def cls() -> None:
     sys("cls" if pl.system() == "Windows" else "clear")
 
 
@@ -90,7 +90,7 @@ if int("".join(pl.python_version().split(".")[0:2])) < 37:
         cool_print("Oh. That was fast.")
         exit()
 
-def hlp():
+def hlp() -> None:
     print('''|--------------------|
 |     TEA SHARP      |
 |TeaSharp help center|
@@ -129,8 +129,8 @@ def hlp():
             print(f'TeaSharp doesn\'t have a command {c}. If you wanna exit: just type blank input.')
 
 
-def c(code):
-    return "\033[" + str(code) + "m"
+def c(code: int) -> str:
+    return f"\033[{code}m"
 
 
 title = '''\033[30m\033[106m █████ ████   █     ████ █   █   █   ███  ███   
@@ -211,7 +211,7 @@ objects = {
 
 }
 
-def bgconf(dat, dat_str, cnl="bg"):
+def bgconf(dat: list, cnl: str = "bg") -> None:
 
     global objects
 
@@ -246,7 +246,7 @@ def bgconf(dat, dat_str, cnl="bg"):
                     print(data[0] + " is not a number!")
 
 
-def run(s=1):
+def run(s: int = 1) -> None:
 
     try:
         
@@ -273,7 +273,7 @@ def run(s=1):
         print("\nOops! You accidentaly pressed Ctrl+C!")
 
 
-def interpretator(com_str,current_line,is_run=False):
+def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
 
     global code_list,echo_on_mode,username,path,object_sel,imported_modules
 
