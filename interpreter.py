@@ -1,3 +1,5 @@
+import os 
+import sys
 import platform as pl
 
 from colorama import init
@@ -5,7 +7,6 @@ from random import choice
 from time import sleep
 
 from os import path
-from os import system as sys
 
 ver = 1.4
 init()
@@ -47,7 +48,7 @@ def cool_print(string: str, noend: bool = False, title: bool = False, slow: bool
 
 
 def cls() -> None:
-    sys("cls" if pl.system() == "Windows" else "clear")
+    os.system("cls" if pl.system() == "Windows" else "clear")
 
 
 if int("".join(pl.python_version().split(".")[0:2])) < 37:
@@ -740,22 +741,35 @@ Shreder95ua     ▐█▀█
         del com,com_list, com_str, cnl
 
 
-print(title)
-
-while True:
-
-    print(fg[color], end = '')
+if __name__ == '__main__':
     
-    try:
+    if sys.argv[-1][-4:] == '.tsh':
         
-        if echo_on_mode:
-            com_str = input()
-        
-        else:
-            com_str = input(f"[{object_sel}]: ")
-        
-        interpretator(com_str, 0)
+        with open(os.path.abspath(sys.argv[-1])) as file:
+            
+            lines = [line for line in file.readlines() if line != '\n' and line != '\r\n' and line != '\r']
+            
+            for (line_num, line) in enumerate(lines):
+                interpretator(line.rstrip(), line_num)
+    
+    elif sys.argv[-1][-4:] != '.tsh':
+        print(title)
+        print(sys.argv[-1])
 
-    except KeyboardInterrupt:
-        print("\nExiting... (You pressed Ctrl+C)")
-        exit()
+        while True:
+
+            print(fg[color], end = '')
+            
+            try:
+                
+                if echo_on_mode:
+                    com_str = input()
+                
+                else:
+                    com_str = input(f"[{object_sel}]: ")
+                
+                interpretator(com_str, 0)
+
+            except KeyboardInterrupt:
+                print("\nExiting... (You pressed Ctrl+C)")
+                exit()
