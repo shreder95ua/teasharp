@@ -630,7 +630,7 @@ if __name__ == '__main__':
             else:
                 exit()
     
-    if sys.argv[-1][-4:] == '.tsh':
+    if sys.argv[-1][-4:] == '.tsh' and len(sys.argv) == 2:
         
         with open(os.path.abspath(sys.argv[-1])) as file:
             
@@ -639,7 +639,7 @@ if __name__ == '__main__':
             for (line_num, line) in enumerate(lines):
                 interpretator(line.rstrip(), line_num)
     
-    elif sys.argv[-1][-4:] != '.tsh':
+    elif len(sys.argv) != 2:
         
         print(title)
 
