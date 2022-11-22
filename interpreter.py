@@ -8,6 +8,10 @@ from time import sleep
 
 from os import path
 
+from utils.help import hlp
+from utils.cool_print import cool_print
+from utils.ansi_color import FOREGROUND, BACKGROUND, EXTRA_ANSI
+
 ver = 1.4
 init()
 
@@ -18,120 +22,6 @@ Procedures = {}
 code_list = {}
 variables = {}
 imported_modules = []
-
-def cool_print(string: str, noend: bool = False, title: bool = False, slow: bool = False) -> None:
-
-    if title:
-        for s in string:
-            print(s, end="")
-            sleep(0.005)
-
-    else:
-        for s in string:
-
-            print(s, end="")
-            sleep(0.05 * (4 if slow else 1))
-
-            if s == " ":
-                sleep(0.05 * (4 if slow else 1))
-
-            elif s == ",":
-                sleep(0.2 * (4 if slow else 1))
-
-            elif s == "!":
-                sleep(0.4 * (4 if slow else 1))
-
-    if not noend:
-        print()
-
-    sleep(0.4*(4 if slow else 1))
-
-
-def cls() -> None:
-    os.system("cls" if pl.system() == "Windows" else "clear")
-
-
-if int("".join(pl.python_version().split(".")[0:2])) < 37:
-
-    print('\033[30m\033[43m',end='')
-    cool_print(''' █████ ████   █     ████ █   █   █   ███  ███   
-   █   █     ███   █     █   █  ███  ████ ████  ''',title=True)
-    print('\033[41m',end='')
-    cool_print('''    █   ████  ███    ███  █████ █████ ███  ███  
-   █   █     █ █       █ █   █ █   █ █ █  █     
-    █   ████ █   █  ████  █   █ █   █ █  █ █    
-██████████████████████████████████████████████  ''',title=True)
-    print("\033[0m",end='')
-    cool_print(f"Warning! Your Python version is {pl.python_version()}!")
-    cool_print("This version does not have features that were added in Python 3.7:")
-    cool_print("sorting, getting information about Windows version, and many-many others.")
-    cool_print("You can get a new interpreter on https://python.org/downloads")
-    cool_print("But if you think that you can still use TeaSharp you just using")
-    cool_print("emulator, or python interpretator that don't shows any kind")
-    cool_print("of versions, or this is long-long future, where versions, are not allowed,")
-    cool_print("you can run this interpreter.")
-    sleep(0.4)
-
-    cool_print("Will you run TeaSharp? ", noend=True)
-    sleep(0.4)
-
-    if input("[Y/n]: ") == "Y":
-
-        cool_print("TeaSharp can crash in any moment! You really wanna run TeaSharp?")
-        
-        if input("[Y/n]: ") == "Y":
-            cool_print("This is your last warning, the TeaSharp will crash, and...")
-            cool_print("And... I don't know... It can do... Okay. You can run Teasharp.")
-            cool_print("But at own risk...", slow=True)
-            cls()
-        
-        else:
-            exit()
-    else:
-        cool_print("Oh. That was fast.")
-        exit()
-
-def hlp() -> None:
-    print('''|--------------------|
-|     TEA SHARP      |
-|TeaSharp help center|
-|--------------------|
-|     2022.03.27     |
-|--------------------|
-| TeaSharp is BASIC- |
-| based programming  |
-| language, that is  |
-| easy to learn.     |
-----------------------''')
-
-    while True:
-
-        c = input("What command help you need? ").lower()
-
-        if c == "print":
-            cool_print('Command print is used to "print" text.')
-            cool_print('You can write text, like this:')
-            cool_print('print Some funny text!')
-            cool_print('It will return "Some funny text!" on the screen.')
-            cool_print('But if you define a variable (for example "to_show" as "Something to show!")')
-            cool_print('It will show contents of the variable you named')
-            cool_print('For example: if you define variable "text" to "Somehing to show",')
-            cool_print('And write "print text" it will show "Somehing to show"')
-
-        elif c == "dir":
-            cool_print('Command "dir" can show all variables you have!')
-            cool_print('For example: if you have two variables "com" and "var"')
-            cool_print('And print "dir", you will see "com, var"')
-
-        elif c == "":
-            break
-
-        else:
-            print(f'TeaSharp doesn\'t have a command {c}. If you wanna exit: just type blank input.')
-
-
-def c(code: int) -> str:
-    return f"\033[{code}m"
 
 
 title = '''\033[30m\033[106m █████ ████   █     ████ █   █   █   ███  ███   
@@ -144,50 +34,6 @@ title = '''\033[30m\033[106m █████ ████   █     ████
               PRAY WITH UKRAINE!                
 \033[0m\033[92mlmao, who needs licenses? 2022 3 march-iNfInItY. Shreder95ua!
 '''
-fg = {
-    "dark gray": c(90), 
-    "red": c(91), 
-    "green": c(92), 
-    "yellow": c(93), 
-    "blue": c(94), 
-    "pink": c(95),
-    "cyan": c(96), 
-    "white": c(97), 
-    "black": c(30), 
-    "dark red": c(31), 
-    "dark green": c(32), 
-    "orange": c(33),
-    "dark_blue": c(34), 
-    "purple": c(35), 
-    "dark_cyan": c(36), 
-    "light gray": c(37)
-}
-
-bg = {
-    "dark gray": c(100), 
-    "red": c(101), 
-    "green": c(102), 
-    "yellow": c(103), 
-    "blue": c(104), 
-    "pink": c(105),
-    "cyan": c(106), 
-    "white": c(107), 
-    "black": c(40), 
-    "dark red": c(41), 
-    "dark green": c(42), 
-    "orange": c(43),
-    "dark_blue": c(44), 
-    "purple": c(45), 
-    "dark_cyan": c(46), 
-    "light gray": c(47)
-}
-
-extra_ansi = {
-    "italic": c(3), 
-    "flash": c(6)
-}
-
-del c
 
 color = "green"
 object_sel = "meta_cons"
@@ -211,6 +57,10 @@ objects = {
     }
 
 }
+
+def cls() -> None:
+    os.system("cls" if pl.system() == "Windows" else "clear")
+
 
 def bgconf(dat: list, cnl: str = "bg") -> None:
 
@@ -438,7 +288,7 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
 
             for _row in range(0,objects["meta_bg"]["height"]):
                 for _col in range(0,objects["meta_bg"]["width"]):
-                    looknoobj = looknoobj + bg[objects["meta_bg"]["bgcolor"]] + fg[objects["meta_bg"]["fgcolor"]] + objects["meta_bg"]["tile"] + "\033[0m"
+                    looknoobj = looknoobj + BACKGROUND[objects["meta_bg"]["bgcolor"]] + FOREGROUND[objects["meta_bg"]["fgcolor"]] + objects["meta_bg"]["tile"] + "\033[0m"
 
                 looknoobj = looknoobj + "\n"
 
@@ -458,7 +308,7 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
                     del objects[objtodel]
                 
                 else:
-                    print(fg["red"] + extra_ansi["flash"] + "ACCESS DENIED\033[0m")
+                    print(FOREGROUND["red"] + EXTRA_ANSI["flash"] + "ACCESS DENIED\033[0m")
             
             except KeyError:
                 print("No object called" + objtodel + ". Maybe you allready deleted it?")
@@ -481,7 +331,7 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
 
                 else:
                     while True:
-                        print(fg[choice(list(fg.keys()))] + " ".join(data),end='')
+                        print(FOREGROUND[choice(list(FOREGROUND.keys()))] + " ".join(data),end='')
 
             except IndexError:
 
@@ -743,6 +593,43 @@ Shreder95ua     ▐█▀█
 
 if __name__ == '__main__':
     
+    if sys.version_info[0:2] < (3, 7):
+
+        print('\033[30m\033[43m',end='')
+        cool_print(''' █████ ████   █     ████ █   █   █   ███  ███   
+    █   █     ███   █     █   █  ███  ████ ████  ''',title=True)
+        print('\033[41m',end='')
+        cool_print('''    █   ████  ███    ███  █████ █████ ███  ███  
+    █   █     █ █       █ █   █ █   █ █ █  █     
+        █   ████ █   █  ████  █   █ █   █ █  █ █    
+    ██████████████████████████████████████████████  ''',title=True)
+        print("\033[0m",end='')
+        cool_print(f"Warning! Your Python version is {pl.python_version()}!")
+        cool_print("This version does not have features that were added in Python 3.7:")
+        cool_print("sorting, getting information about Windows version, and many-many others.")
+        cool_print("You can get a new interpreter on https://python.org/downloads")
+        cool_print("But if you think that you can still use TeaSharp you just using")
+        cool_print("emulator, or python interpretator that don't shows any kind")
+        cool_print("of versions, or this is long-long future, where versions, are not allowed,")
+        cool_print("you can run this interpreter.")
+        sleep(0.4)
+
+        cool_print("Will you run TeaSharp? ", noend=True)
+        sleep(0.4)
+
+        if input("[Y/n]: ") == "Y":
+
+            cool_print("TeaSharp can crash in any moment! You really wanna run TeaSharp?")
+            
+            if input("[Y/n]: ") == "Y":
+                cool_print("This is your last warning, the TeaSharp will crash, and...")
+                cool_print("And... I don't know... It can do... Okay. You can run Teasharp.")
+                cool_print("But at own risk...", slow=True)
+                cls()
+            
+            else:
+                exit()
+    
     if sys.argv[-1][-4:] == '.tsh':
         
         with open(os.path.abspath(sys.argv[-1])) as file:
@@ -753,12 +640,12 @@ if __name__ == '__main__':
                 interpretator(line.rstrip(), line_num)
     
     elif sys.argv[-1][-4:] != '.tsh':
+        
         print(title)
-        print(sys.argv[-1])
 
         while True:
 
-            print(fg[color], end = '')
+            print(FOREGROUND[color], end = '')
             
             try:
                 
