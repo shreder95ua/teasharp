@@ -1,0 +1,5 @@
+10 from 1 to 10 as count do
+20 print count
+30 print  sheeps!
+40 end
+50 print *sleeps*
