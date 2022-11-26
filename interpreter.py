@@ -165,12 +165,15 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
         else:
             data = com_list[1:len(com_list)]
         
+        if data:
+            data_str = com_str.removeprefix(cnl+" ").replace("\\n","\n")
+        
         try:
 
             code_num = int(com)
 
             if data:
-                code_list[code_num] = " ".join(data)
+                code_list[code_num] = data_str
             
             else:
                 del code_list[code_num]
@@ -214,7 +217,7 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
                 print(variables["_".join(data)])
             
             except:
-                print(com_str.removeprefix(cnl+" ").replace("\\n","\n"))
+                print(data_str)
 
         elif com == "read" and "file" == data[0].lower():
             with open(" ".join(data[1:(" ".join(data).lower()).split().index("as")])) as file:
@@ -230,7 +233,7 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
                 try:
                     print(variables["_".join(data)],end="")
                 except:
-                    print(com_str.removeprefix(cnl+" ").replace("\\n","\n"),end='')
+                    print(data_str,end='')
 
         elif com == "username":
 
@@ -379,7 +382,8 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
         elif com == "list":
             
             if code_list:
-                for num in range(0, len(code_list)):print(list(code_list)[num]+":", code_list[list(code_list.keys())[num]])
+                for num in range(0, len(code_list)):
+                    print(str(list(code_list)[num])+":", code_list[list(code_list.keys())[num]])
 
             else:
                 print("Looks like you didn't wrote any code!")
@@ -660,3 +664,4 @@ if __name__ == '__main__':
             except KeyboardInterrupt:
                 print("\nExiting... (You pressed Ctrl+C)")
                 exit()
+
