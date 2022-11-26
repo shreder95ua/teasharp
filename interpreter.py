@@ -214,13 +214,13 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
                 print(variables["_".join(data)])
             
             except:
-                print(" ".join(data).replace("\\n","\n"))
+                print(com_str.remove(cnl+" ").replace("\\n","\n"))
 
         elif com == "read" and "file" == data[0].lower():
             with open(" ".join(data[1:(" ".join(data).lower()).split().index("as")])) as file:
                 variables[" ".join(data[(" ".join(data).lower()).split().index("as")+1:len(data)])]=file.read()
 
-        elif com == "write" and "file" == data[0].lower():
+        elif com == "write":
             
             if "file" == data[0].lower():
                 with open(" ".join(data[1:(" ".join(data).lower()).split().index("as")]),'w') as file:
@@ -230,7 +230,7 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
                 try:
                     print(variables["_".join(data)],end="")
                 except:
-                    print(" ".join(data).replace("\\n","\n"),end='')
+                    print(com_str.remove(cnl+" ").replace("\\n","\n"),end='')
 
         elif com == "username":
 
