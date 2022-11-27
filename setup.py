@@ -10,6 +10,6 @@ setup(
     ],
     entry_points = '''
     [console_scripts]
-    teasharp=teasharp:main
+    teasharp=cli:main
     '''
 )
