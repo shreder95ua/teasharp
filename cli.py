@@ -1,9 +1,12 @@
 import click
+
 from teasharp.interpreter import interpret
+from teasharp.utils.help import hlp
 
 @click.command()
 @click.argument('path', type = click.Path(exists = True), metavar = '<PATH_TO_TEASHARP_SCRIPT>', required = False)
-def main(path: str):
+@click.option('--docs', '-d', help = 'Show the Teasharp language docs.', is_flag = True, required = False)
+def main(path: str, docs: bool) -> None:
 
     '''
         Call the Teasharp interpreter.
@@ -12,5 +15,9 @@ def main(path: str):
         
         If there's a file path, it will interpret that file.
     '''
+
+    if docs:
+        hlp()
+        return
 
     interpret(path)
