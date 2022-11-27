@@ -1,4 +1,4 @@
-from utils.cool_print import cool_print
+from teasharp.utils.cool_print import cool_print
 
 def hlp() -> None:
     print('''|--------------------|
