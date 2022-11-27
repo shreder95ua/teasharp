@@ -12,7 +12,7 @@ from teasharp.utils.help import hlp
 from teasharp.utils.cool_print import cool_print
 from teasharp.utils.ansi_color import FOREGROUND, BACKGROUND, EXTRA_ANSI
 
-__version__ = 1.4
+__version__ = '1.5.0'
 
 init()
 
