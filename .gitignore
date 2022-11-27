@@ -2,3 +2,5 @@
 *.egg-info/
 *.egg
 __pycache__
+
+/dist
