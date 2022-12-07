@@ -1,3 +1,7 @@
 *.pyc
+*.egg-info/
+*.egg
 __pycache__
+
+/dist
 /teasharp.egg-info

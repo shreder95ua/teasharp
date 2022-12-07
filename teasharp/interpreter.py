@@ -8,11 +8,12 @@ from time import sleep
 
 from os import path
 
-from utils.help import hlp
-from utils.cool_print import cool_print
-from utils.ansi_color import FOREGROUND, BACKGROUND, EXTRA_ANSI
+from teasharp.utils.help import hlp
+from teasharp.utils.cool_print import cool_print
+from teasharp.utils.ansi_color import FOREGROUND, BACKGROUND, EXTRA_ANSI
 
-ver = 1.4
+__version__ = '1.5.0'
+
 init()
 
 username = 0
@@ -22,7 +23,6 @@ Procedures = {}
 code_list = {}
 variables = {}
 imported_modules = []
-
 
 title = '''\033[30m\033[106m █████ ████   █     ████ █   █   █   ███  ███   
 \033[46m   █   █     ███   █     █   █  ███  ████ ████  
@@ -278,7 +278,7 @@ def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
             else:
                 runon = [pl.system(), pl.version()]
 
-            print(f"Tea Sharp ver.{ver}")
+            print(f"Tea Sharp __version__.{__version__}")
             print(f"Python version: {pl.python_version()}")
             print(f"Running on {' '.join(runon)}")
 
@@ -592,8 +592,8 @@ Shreder95ua     ▐█▀█
         del com,com_list, com_str, cnl
 
 
-if __name__ == '__main__':
-    
+def interpret(path: str) -> None:
+
     if sys.version_info[0:2] < (3, 7):
 
         print('\033[30m\033[43m',end='')
@@ -661,4 +661,3 @@ if __name__ == '__main__':
             except KeyboardInterrupt:
                 print("\nExiting... (You pressed Ctrl+C)")
                 exit()
-
