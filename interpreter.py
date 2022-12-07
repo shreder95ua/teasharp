@@ -66,22 +66,11 @@ def bgconf(dat: list, cnl: str = "bg") -> None:
 
     global objects
 
-    if dat == []:
-        print(cnl)
-
-    else:
+    if not dat == []:
 
         st = dat[0]
         
-        if len(st) < 3:
-
-            try:
-                print(objects["meta_bg"][st])
-
-            except KeyError:
-                print("No setting " + st + ". Do You Understand?")
-
-        else:
+        if len(st) >= 3:
 
             data = dat[1:len(dat)]
             
@@ -95,6 +84,14 @@ def bgconf(dat: list, cnl: str = "bg") -> None:
 
                 except ValueError:
                     print(data[0] + " is not a number!")
+
+        try:
+            print(objects["meta_bg"][st])
+
+        except KeyError:
+            print("No setting " + st + ". Do You Understand?")    
+
+    print(cnl)
 
 
 def run(s: int = 1) -> None:
@@ -126,7 +123,7 @@ def run(s: int = 1) -> None:
 
 def interpretator(com_str: str, current_line: int, is_run: bool = False) -> any:
 
-    global code_list,echo_on_mode,username,path,object_sel,imported_modules
+    global code_list, echo_on_mode, username, path, object_sel, imported_modules
 
     code_list = dict(sorted(list(code_list.items()), key = lambda kv: kv[0]))
 
